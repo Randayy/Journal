@@ -52,4 +52,3 @@ def login_view(request):
         except Student.DoesNotExist:
             return redirect('EduHub')
     return render(request, 'login.html')
-

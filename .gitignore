@@ -1,5 +1,7 @@
 
-journal/EduHub/__pycache__/urls.cpython-310.pyc
+journal/EduHub/__pycache__/admin.cpython-310.pyc
+journal/EduHub/__pycache__/apps.cpython-310.pyc
+journal/EduHub/__pycache__/models.cpython-310.pyc
 journal/EduHub/__pycache__/views.cpython-310.pyc
-journal/journal/__pycache__/settings.cpython-310.pyc
 *.pyc
+journal/EduHub/__pycache__/views.cpython-310.pyc
