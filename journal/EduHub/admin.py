@@ -9,7 +9,7 @@ class TeacherAdmin(admin.ModelAdmin):
     list_display = ('teacher_id', 'firstname', 'lastname')
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('stud_id', 'firstname', 'lastname')
+    list_display = ('stud_id', 'firstname', 'lastname','username', 'password')
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('course_id', 'course_name', 'teacher')
