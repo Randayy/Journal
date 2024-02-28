@@ -12,8 +12,10 @@
 
 <h1>Students</h1>
   
-<p>You Are Not Logginned</p>
-<p>Login Please!</p>
+<ul>
+  {% for x in students %}
+    <li>{{ x.firstname }} {{ x.lastname }} {{ x.group }}</li>
+  {% endfor %}
+</ul>
 
 </body>
-</html>
