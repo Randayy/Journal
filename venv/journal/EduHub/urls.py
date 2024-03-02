@@ -9,5 +9,5 @@ urlpatterns = [
     path('EduHub/success', views.EduHub_loginned, name='EduHub_loginned'),
     path('', include('django.contrib.auth.urls')),
     path('register/', Register.as_view(), name='register'),
-    # path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout')
+    # path('logout/', auth_views.LogoutView.as_view(), name='logout')
 ]

@@ -43,21 +43,21 @@ def EduHub_loginned(request):
 #     else:
 #         return render(request, 'logged_out.html')
 
-def logout_view(request):
-    logout(request)
-    # Redirect to a success page.
+# def logout_view(request):
+#     logout(request)
+#     # Redirect to a success page.
     
     
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        try:
-            student = Student.objects.get(username=username, password=password)
-            return redirect('EduHub_loginned')
-        except Student.DoesNotExist:
-            return redirect('EduHub')
-    return render(request, 'login.html')
+# def login_view(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         try:
+#             student = Student.objects.get(username=username, password=password)
+#             return redirect('EduHub_loginned')
+#         except Student.DoesNotExist:
+#             return redirect('EduHub')
+#     return render(request, 'login.html')
   
 class Register(View):
     template_name = 'registration/register.html'
