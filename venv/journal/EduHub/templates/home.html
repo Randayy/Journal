@@ -4,12 +4,23 @@
     <h1>Home page</h1>
     <hr>
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user.is_student %}
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit">logout</button>
     </form>
+    <p>ty student!</p>
+    {% elif user.is_authenticated and user.is_teacher %}
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">logout</button>
+    </form>
+    <p>ty teacher!</p>
     {% else %}
+
+        <p>ty lox!</p>
+
+
         <a href="{% url 'login' %}">Login</a> |
         <a href="{% url 'register' %}">Register</a>
     {% endif %}

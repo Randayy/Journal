@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.template import loader
 from .models import Student
+from .models import Teacher
+from .models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -8,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.views import View
 from django.shortcuts import render, redirect
+# from django.forms.BaseForm import clean_data
 
 from EduHub.forms import UserCreationForm
 
@@ -70,14 +73,42 @@ class Register(View):
 
     def post(self, request):
         form = UserCreationForm(request.POST)
-
         if form.is_valid():
-            form.save()
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
+            role = form.cleaned_data.get('role')
+
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data.get('password1'))
+            user.is_student = (role == 'student')
+            user.is_teacher = (role == 'teacher')
+            user.save()
+
+            if role == 'teacher':
+                teacher = Teacher.objects.create(
+                    user=user,
+                    firstname="Не задано",
+                    lastname="Не задано",
+                    username=username,
+                    password=form.cleaned_data.get('password1'),
+                    fullname="Не задано",
+                    subject="Не вказано",
+                    department="Не вказано"
+                )
+            elif role == 'student':
+                student = Student.objects.create(
+                    user=user,
+                    firstname="Не задано",
+                    lastname="Не задано",
+                    username=username,
+                    password=form.cleaned_data.get('password1'),
+                    fullname="Не задано",
+                    group="Не вказано"
+                )
+
+            user = authenticate(username=username, password=form.cleaned_data.get('password1'))
             login(request, user)
             return redirect('home')
+
         context = {
             'form': form
         }

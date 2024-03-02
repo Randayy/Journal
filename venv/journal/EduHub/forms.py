@@ -11,7 +11,12 @@ class UserCreationForm(UserCreationForm):
         max_length=254,
         widget=forms.EmailInput(attrs={'autocomplete': 'email'})
     )
+    ROLE_CHOICES = [
+        ('teacher', _('Вчитель')),
+        ('student', _('Студент')),
+    ]
+    role = forms.ChoiceField(choices=ROLE_CHOICES, label=_("Я є"), required=True)
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email")
+        fields = ("username", "email", "role")

@@ -6,9 +6,13 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-  pass
+  is_student = models.BooleanField(default=False)
+  is_teacher = models.BooleanField(default=False)
+  
 
 class Teacher(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teacher_profile')
+  is_teacher = models.BooleanField(default=True)
   teacher_id = models.AutoField(primary_key=True)
   firstname = models.CharField(max_length=255)
   lastname = models.CharField(max_length=255)
@@ -16,13 +20,15 @@ class Teacher(models.Model):
   username = models.CharField(max_length=255)
   password = models.CharField(validators=[
             MinLengthValidator(6, 'the field must contain at least 6 characters')
-            ],max_length=50)
+            ],max_length=50,default="123456")
   subject = models.CharField(max_length=255)
   department = models.CharField(max_length=255)
   def __str__(self):
       return f"{self.fullname} - {self.subject}"
 
 class Student(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
+  is_student = models.BooleanField(default=True)
   stud_id = models.AutoField(primary_key=True)
   firstname = models.CharField(max_length=255)
   lastname = models.CharField(max_length=255)
@@ -30,7 +36,7 @@ class Student(models.Model):
   username = models.CharField(max_length=255)
   password = models.CharField(validators=[
             MinLengthValidator(6, 'the field must contain at least 6 characters')
-            ],max_length=50)
+            ],max_length=50,default="123456")
   group = models.CharField(max_length=10)
 
   def __str__(self):

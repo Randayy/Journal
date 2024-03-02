@@ -10,7 +10,7 @@ from django.contrib.auth.admin import UserAdmin
 User = get_user_model()
 #це все для відображення первинного ключа
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('teacher_id', 'firstname', 'lastname')
+    list_display = ('teacher_id', 'firstname', 'lastname','username', 'password')
 
 class StudentAdmin(admin.ModelAdmin):
 
@@ -28,7 +28,7 @@ class GradeAdmin(admin.ModelAdmin):
 # Register your models here.
 @admin.register(User)
 class UserAdmin(UserAdmin):
-    pass
+    list_display = ('username', 'email', 'is_student', 'is_teacher', 'is_staff', 'is_active')
 
 
 admin.site.register(Teacher, TeacherAdmin)
