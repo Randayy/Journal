@@ -5,13 +5,24 @@ from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
-class UserCreationForm(UserCreationForm):
-    email = forms.EmailField(
-        label=_("Email"),
-        max_length=254,
-        widget=forms.EmailInput(attrs={'autocomplete': 'email'})
-    )
+# class UserCreationForm(UserCreationForm):
+#     email = forms.EmailField(
+#         label=_("Email"),
+#         max_length=254,
+#         widget=forms.EmailInput(attrs={'autocomplete': 'email'})
+#     )
+
+class Meta(UserCreationForm.Meta):
+    model = User
+    fields = ("username", "email")
+
+class CustomUserCreationForm(UserCreationForm):
+    ROLE_CHOICES = [
+        ('teacher', _('Вчитель')),
+        ('student', _('Студент')),
+    ]
+    role = forms.ChoiceField(choices=ROLE_CHOICES, label=_("Я є"), required=True)
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email")
+        fields = ("username", "email", "role")

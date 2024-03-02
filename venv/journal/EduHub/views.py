@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
-from .models import Student
+from .models import Student, Teacher
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.views import View
 from django.shortcuts import render, redirect
 
-from EduHub.forms import UserCreationForm
+from EduHub.forms import CustomUserCreationForm
 
 
 def EduHub(request):
@@ -63,22 +63,42 @@ class Register(View):
     template_name = 'registration/register.html'
 
     def get(self, request):
-        context = {
-            'form': UserCreationForm()
-        }
+        context = {'form': CustomUserCreationForm()}
         return render(request, self.template_name, context)
 
     def post(self, request):
-        form = UserCreationForm(request.POST)
-
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('home')
-        context = {
-            'form': form
-        }
-        return render(request, self.template_name, context)
+            role = form.cleaned_data.get('role')  # Отримання вибраної ролі з форми
+
+            if role == 'teacher':
+                # Створення запису вчителя
+                Teacher.objects.create(
+                    firstname="Не задано",
+                    lastname="Не задано",
+                    fullname=f"{user.first_name} {user.last_name}",
+                    username=username,
+                    password=form.cleaned_data.get('password1'),  # Зауважте: у реальних системах пароль необхідно зберігати у безпечному вигляді
+                    subject="Не вказано",  # Вам потрібно буде додати логіку для обробки цих даних
+                    department="Не вказано"
+                )
+            elif role == 'student':
+                # Створення запису студента
+                Student.objects.create(
+                    firstname="Не задано",
+                    lastname="Не задано",
+                    fullname=f"{user.first_name} {user.last_name}",
+                    username=username,
+                    password=form.cleaned_data.get('password1'),  # Аналогічно, зберігайте паролі безпечно
+                    group="Не вказано"
+                )
+
+            # # Автентифікація та логін користувача
+            # user = authenticate(username=username, password=form.cleaned_data.get('password1'))
+            # if user is not None:
+            #     login(request, user)
+            #     return redirect('home')  # Перенаправлення на головну сторінку або іншу цільову сторінку
+
+        return render(request, self.template_name, {'form': form})
