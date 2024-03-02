@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from django.contrib import admin
-from .models import Teacher, Student, Course, Enrollment, Grade, user
+from .models import Teacher, Student, Course, Enrollment, Grade, User
 
 from django.contrib import admin
 from django.contrib.auth import get_user_model
