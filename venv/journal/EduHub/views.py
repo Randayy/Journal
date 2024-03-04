@@ -92,7 +92,8 @@ class Register(View):
                     password=form.cleaned_data.get('password1'),
                     fullname="Не задано",
                     subject="Не вказано",
-                    department="Не вказано"
+                    department="Не вказано",
+                    courses=form.cleaned_data.get('course'),
                 )
             elif role == 'student':
                 student = Student.objects.create(

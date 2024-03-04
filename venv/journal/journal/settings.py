@@ -72,6 +72,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'filters': 'EduHub.filters',  # Замініть 'myapp' на ім'я вашого додатку
+            },
         },
     },
 ]

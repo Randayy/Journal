@@ -16,6 +16,9 @@
         <button type="submit">logout</button>
     </form>
     <p>ty teacher!</p>
+    {% for x in student %}
+    <p>{{ x }}</p>
+    {% endfor %}
     {% else %}
 
         <p>ty lox!</p>
