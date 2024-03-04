@@ -13,7 +13,7 @@
         {{ form.username|add_placeholder:"Username" }}
         {{ form.password|add_placeholder:"Password" }}
         {% csrf_token %}
-        <button type="submit" class="btn btn-success button">Submit</button>
+        <button type="submit" class="btn btn-success nav-link">Submit</button>
         </form>
         <a class='link-reset'href="{% url 'password_reset' %}">Forgot password?</a>
     </div>

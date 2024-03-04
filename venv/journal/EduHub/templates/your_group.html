@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Your Group</h1>
+    {% if user.is_authenticated %}
+        {% if user.is_student %}
+            {% with student=user.student_profile %}
+                {% if student %}
+                    Група студента: {{ student.group.group_name }}
+                    <p> ------ </p>
+                    <h2>Students by Group</h2>
+                    
+                    <h3>{{ student.group.group_name }}</h3>
+                    {% for x in students %}
+                        {% if x.group.group_name == student.group.group_name %}
+                            <p>{{ x.user.username }}</p>
+                        {% endif %}
+                        
+                        
+                    {% endfor %}
+                 
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

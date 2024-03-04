@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from .models import Course
+from .models import Group
 
 User = get_user_model()
 
@@ -21,8 +22,9 @@ class UserCreationForm(UserCreationForm):
     ]
     role = forms.ChoiceField(choices=ROLE_CHOICES, label=_("Я є"), required=True)
     course = forms.ModelChoiceField(queryset=Course.objects.all(), label=_("Курс"),required=False)
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), label=_("Group"),required=False)
     
     
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email", "role",'course')
+        fields = ("username", "email", "role",'course','group')

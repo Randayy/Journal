@@ -13,8 +13,12 @@
 <h1>Students</h1>
   
 <ul>
-  {% for x in students %}
-    <li>{{ x.firstname }} {{ x.lastname }} {{ x.group }}</li>
+  {% for y in groups %}
+    {% for x in students %}
+      {% if y.group_name == needed_name and y.group_id == x.group_id %}
+        <li>{{ x.firstname }} {{ x.lastname }}</li>
+      {% endif %}
+    {% endfor %}
   {% endfor %}
 </ul>
 
