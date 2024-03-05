@@ -77,6 +77,6 @@ class Grade(models.Model):
   date = models.DateField()
 
   def __str__(self):
-    return f"{self.student.fullname} - {self.enrollment.course}: {self.grade}"
-  
+    return f'{self.grade}'
+
 

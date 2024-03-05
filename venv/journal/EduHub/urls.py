@@ -10,5 +10,6 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('register/', Register.as_view(), name='register'),
     path('your_group/', views.your_group, name='your_group'),
+    path('grade_table/', views.grade_table, name='grade_table'),
     # path('logout/', auth_views.LogoutView.as_view(), name='logout')
 ]

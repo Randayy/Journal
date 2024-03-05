@@ -4,6 +4,8 @@ from EduHub.models import Student
 from EduHub.models import Teacher
 from EduHub.models import User
 from EduHub.models import Group
+from EduHub.models import Course
+from EduHub.models import Grade
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -38,6 +40,12 @@ def EduHub_loginned(request):
   }
   return HttpResponse(template.render(context, request))
 
+def grade_table(request):
+    students = Student.objects.all()
+    courses = Course.objects.all()
+    grades = Grade.objects.all()  
+    context = {'students': students, 'courses': courses, 'grades': grades}
+    return render(request, 'grade_table.html', context)
 
 # def login_view(request):
 #     if request.method == 'POST':
