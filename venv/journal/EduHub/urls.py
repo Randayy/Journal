@@ -13,4 +13,9 @@ urlpatterns = [
     path('grade_table/', views.grade_table, name='grade_table'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('your_grade_table/', views.Your_Grade_Table, name='your_grade_table'),
+    path("home", views.home, name="home"),
+    path('courses/<int:course_id>/', views.course_detail, name='course_detail'),
+    path('courses/<int:course_id>/groups/<int:group_id>/', views.group_detail, name='group_detail'),
+
 ]
+

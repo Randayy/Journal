@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<h1>Group Detail</h1>
+<hr>
+
+<form method="post">
+    {% csrf_token %}
+    {% for student in students %}
+    <p>{{ student.fullname }}</p>
+    {% with form=grade_forms|get_item:student.stud_id %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        {% endfor %}
+    {% endwith %}
+{% endfor %}
+    <button type="submit">Submit Grades</button>
+</form>
+
+{% endblock %}

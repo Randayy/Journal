@@ -15,8 +15,9 @@ from django.views import View
 from django.shortcuts import render, redirect
 # from django.forms.BaseForm import clean_data
 from .models import *
+from django.shortcuts import render, get_object_or_404
+from EduHub.forms import UserCreationForm, GradeForm
 
-from EduHub.forms import UserCreationForm
 
 
 def EduHub(request):
@@ -100,7 +101,7 @@ class Register(View):
                     username=username,
                     password=form.cleaned_data.get('password1'),
                     fullname=f"{form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name')}",
-                    courses=form.cleaned_data.get('course'),
+                    #courses=form.cleaned_data.get('course'),
                 )
             elif role == 'student':
                 student = Student.objects.create(
@@ -145,3 +146,60 @@ def Your_Grade_Table(request):
     return render(request, 'your_grade_table.html', context)
 
         
+def home(request):
+    user = request.user
+    try:
+        teacher = Teacher.objects.filter(user=user).first()
+     
+        if teacher:
+            courses = Course.objects.filter(teacher=teacher)
+        else:
+            courses = Course.objects.none()  # Або встановіть якесь значення за замовчуванням
+        context = {'user': user, 'courses': courses, 'teacher': teacher}
+        return render(request, 'home.html', context)
+    except:
+        context = {'user': user}
+        return render(request, 'home.html', context)
+
+
+def course_detail(request, course_id):
+    course = get_object_or_404(Course, course_id=course_id)
+    # Припустимо, що у вашій моделі Group є зв'язок з Course через ForeignKey.
+    # Ви маєте використати правильне поле для фільтрації, тут в прикладі використовується 'course',
+    # яке має вказувати на інстанс моделі Course.
+    groups = Group.objects.filter(course=course)
+    return render(request, 'course_detail.html', {'course': course, 'groups': groups})
+
+def group_detail(request, course_id, group_id):
+    course = get_object_or_404(Course, course_id=course_id)
+    group = get_object_or_404(Group, group_id=group_id, course=course)
+    students = Student.objects.filter(group=group)
+
+    if request.method == 'POST':
+        # Обробка форми
+        for student in students:
+            # Спроба знайти існуючий об'єкт Grade або створити новий
+            grade, created = Grade.objects.get_or_create(
+                student=student, 
+                course=course,
+                defaults={'module1': 0, 'module2': 0, 'module3': 0, 'module4': 0, 'grade': 0}
+            )
+            form = GradeForm(request.POST, instance=grade, prefix=str(student.stud_id))
+            if form.is_valid():
+                form.save()
+        return redirect('group_detail', course_id=course_id, group_id=group_id)
+    else:
+        # Ініціалізація форм для кожного студента
+        grade_forms = {}
+        
+        for student in students:
+            grade, created = Grade.objects.get_or_create(
+                student=student, 
+                course=course,
+                defaults={'module1': 0, 'module2': 0, 'module3': 0, 'module4': 0, 'grade': 0}
+            )
+            grade_forms[student.stud_id] = GradeForm(instance=grade, prefix=str(student.stud_id))
+
+        #return render(request, 'group_detail.html', {'group': group, 'students': students, 'grade_forms': grade_forms})
+        return render(request, 'group_detail.html', {'course': course, 'group': group, 'students': students, 'grade_forms': grade_forms})
+   

@@ -65,11 +65,11 @@ class Grade(models.Model):
   grade_id = models.AutoField(primary_key=True)
   student = models.ForeignKey(Student, on_delete=models.CASCADE, db_column='student_id')
   course = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_id')
-  grade = models.DecimalField(max_digits=5, decimal_places=2)
-  module1 = models.IntegerField()
-  module2 = models.IntegerField()
-  module3 = models.IntegerField()
-  module4 = models.IntegerField()
+  grade = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+  module1 = models.IntegerField(null=True)
+  module2 = models.IntegerField(null=True)
+  module3 = models.IntegerField(null=True)
+  module4 = models.IntegerField(null=True)
 
   def __str__(self):
     return f'{self.grade}'
