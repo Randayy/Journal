@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from django.contrib import admin
-from .models import Teacher, Student, Course, Enrollment, Grade, User, Group
+from .models import Teacher, Student, Course, Grade, User, Group
 
 from django.contrib import admin
 from django.contrib.auth import get_user_model
@@ -19,11 +19,8 @@ class StudentAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('course_id', 'course_name')
 
-class EnrollmentAdmin(admin.ModelAdmin):
-    list_display = ('enrollment_id', 'student', 'course')
-
 class GradeAdmin(admin.ModelAdmin):
-    list_display = ('grade_id', 'student', 'grade', 'date','enrollment')
+    list_display = ('grade_id', 'course_id' ,'student', 'grade')
     
 # Register your models here.
 @admin.register(User)
@@ -32,10 +29,12 @@ class UserAdmin(UserAdmin):
 
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('group_id', 'group_name')
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'is_student', 'is_teacher', 'is_staff', 'is_active')
     
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Course, CourseAdmin)
-admin.site.register(Enrollment, EnrollmentAdmin)
 admin.site.register(Grade, GradeAdmin)
 admin.site.register(Group, GroupAdmin)

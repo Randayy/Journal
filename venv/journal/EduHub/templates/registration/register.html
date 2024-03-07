@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -19,13 +20,15 @@
             <hr>
             
             <form action="{% url 'register' %}" method="post">
-                {{ form.username }}
-                {{ form.password1 }}
-                {{ form.password2 }}
-                {{ form.email }}
-                {{ form.role }}
-                {{ form.course }}
-                {{ form.group }}
+                {{ form.username|add_placeholder:"Username" }}
+                {{ form.password1|add_placeholder:"Введіть Пароль" }}
+                {{ form.password2|add_placeholder:"Повторіть Пароль" }}
+                {{ form.email|add_placeholder:"Email" }}
+                {{ form.role|add_placeholder:"Role" }}
+                {{ form.course|add_placeholder:"Якщо вчитель вкажіть курс" }}
+                {{ form.group|add_placeholder:"Group" }}
+                {{ form.first_name|add_placeholder:"First Name" }}
+                {{ form.last_name|add_placeholder:"Last Name" }}
                 
                 {% csrf_token %}
             <button type="submit" class="btn btn-success button">Submit</button>

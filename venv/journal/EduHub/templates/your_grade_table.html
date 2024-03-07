@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Your Name : {{ user.username }}</h1>
+        {% for x in grades %}
+            {% if x.student.username == user.username %}
+                <h1>Subject : {{ x.course.course_name }}</h1>
+                <h1>Grade : {{ x.grade }}</h1>
+                <h1>Grade : {{ x.module1 }}</h1>
+                <h1>Grade : {{ x.module2 }}</h1>
+                <h1>Grade : {{ x.module3 }}</h1>
+                <h1>Grade : {{ x.module4 }}</h1>
+            {% endif %}
+        {% endfor %}
+    
+{% endblock %}

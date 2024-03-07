@@ -20,12 +20,28 @@
     {% for x in student %}
     <p>{{ x }}</p>
     {% endfor %}
+    {% elif user.is_authenticated %}
+    <p>ty admin!</p>
+
+
+    <a href="{% url 'login' %}">Login</a> |
+    <a href="{% url 'register' %}">Register</a>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">logout</button>
+    </form>
     {% else %}
 
         <p>ty lox!</p>
 
 
-        <a href="{% url 'login' %}">Login</a> |
-        <a href="{% url 'register' %}">Register</a>
+        <a href="{% url 'login' %}">Login</a>
+        
+
+        {% comment %} <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">logout</button>
+        </form> {% endcomment %}
     {% endif %}
 {% endblock %}

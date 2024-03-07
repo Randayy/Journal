@@ -13,7 +13,12 @@
                     <h3>{{ student.group.group_name }}</h3>
                     {% for x in students %}
                         {% if x.group.group_name == student.group.group_name %}
-                            <p>{{ x.user.username }}</p>
+                            {% if x.username == user.username %}
+                                <p> Username :{{ x.user.username }} | Name {{ x.fullname }} | Student ID:{{ x.stud_id }}</p>
+                                <a href="{% url 'your_grade_table' %}"> Watch Marks </a>
+                            {% else %}
+                                <p> Username :{{ x.user.username }} | Name {{ x.fullname }} | Student ID:{{ x.stud_id }}</p>
+                            {% endif %}
                         {% endif %}
                         
                         

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ovp(m2p4p985)9vxn)9x6r19tk6pdlfvx=4@%#w$-%ex$+hxfx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['127.0.0.1']
 
 AUTH_USER_MODEL = 'EduHub.User'
 LOGIN_REDIRECT_URL = '/home'

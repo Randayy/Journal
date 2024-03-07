@@ -60,21 +60,12 @@ def grade_table(request):
 #     else:
 #         return render(request, 'logged_out.html')
 
-# def logout_view(request):
-#     logout(request)
-#     # Redirect to a success page.
+def logout_view(request):
+    logout(request)
+    # Redirect to a success page.
     
     
-# def login_view(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         try:
-#             student = Student.objects.get(username=username, password=password)
-#             return redirect('EduHub_loginned')
-#         except Student.DoesNotExist:
-#             return redirect('EduHub')
-#     return render(request, 'login.html')
+
   
 class Register(View):
     template_name = 'registration/register.html'
@@ -91,7 +82,9 @@ class Register(View):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             role = form.cleaned_data.get('role')
-
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            
             user = form.save(commit=False)
             user.set_password(form.cleaned_data.get('password1'))
             user.is_student = (role == 'student')
@@ -102,23 +95,21 @@ class Register(View):
             if role == 'teacher':
                 teacher = Teacher.objects.create(
                     user=user,
-                    firstname="Не задано",
-                    lastname="Не задано",
+                    firstname=form.cleaned_data.get('first_name'),
+                    lastname=form.cleaned_data.get('last_name'),
                     username=username,
                     password=form.cleaned_data.get('password1'),
-                    fullname="Не задано",
-                    subject="Не вказано",
-                    department="Не вказано",
+                    fullname=f"{form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name')}",
                     courses=form.cleaned_data.get('course'),
                 )
             elif role == 'student':
                 student = Student.objects.create(
                     user=user,
-                    firstname="Не задано",
-                    lastname="Не задано",
+                    firstname=form.cleaned_data.get('first_name'),
+                    lastname=form.cleaned_data.get('last_name'),
                     username=username,
                     password=form.cleaned_data.get('password1'),
-                    fullname="Не задано",
+                    fullname=f"{form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name')}",
                     group=form.cleaned_data.get('group')
                 )
 
@@ -131,12 +122,11 @@ class Register(View):
         }
         return render(request, self.template_name, context)
     
-
+@login_required
 def your_group(request):
     
     students = Student.objects.all()
     groups = Group.objects.all()
-    studentskn31 = Student.objects.filter(group__group_name='КН-31').values()
     template = loader.get_template('your_group.html')
     context = {
     'students': students,
@@ -145,5 +135,13 @@ def your_group(request):
     
     }
     return HttpResponse(template.render(context, request))
+
+
+def Your_Grade_Table(request):
+    students = Student.objects.all()
+    courses = Course.objects.all()
+    grades = Grade.objects.all()  
+    context = {'students': students, 'courses': courses, 'grades': grades}
+    return render(request, 'your_grade_table.html', context)
 
         

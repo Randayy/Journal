@@ -23,8 +23,10 @@ class UserCreationForm(UserCreationForm):
     role = forms.ChoiceField(choices=ROLE_CHOICES, label=_("Я є"), required=True)
     course = forms.ModelChoiceField(queryset=Course.objects.all(), label=_("Курс"),required=False)
     group = forms.ModelChoiceField(queryset=Group.objects.all(), label=_("Group"),required=False)
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-firstname'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-lastname'}))
     
     
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "email", "role",'course','group')
+        fields = ("username", "email", "role",'course','group','first_name','last_name')
