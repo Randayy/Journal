@@ -201,5 +201,5 @@ def group_detail(request, course_id, group_id):
             grade_forms[student.stud_id] = GradeForm(instance=grade, prefix=str(student.stud_id))
 
         #return render(request, 'group_detail.html', {'group': group, 'students': students, 'grade_forms': grade_forms})
-        return render(request, 'group_detail.html', {'course': course, 'group': group, 'students': students, 'grade_forms': grade_forms})
+        return render(request, 'group_detail.html', {'group': group, 'students': students, 'grade_forms': grade_forms})
    

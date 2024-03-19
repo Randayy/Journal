@@ -33,7 +33,7 @@ class UserCreationForm(UserCreationForm):
         fields = ("username", "email", "role",'group','first_name','last_name')
 
 class GradeForm(forms.ModelForm):
-    сourse = forms.ModelChoiceField(queryset=Course.objects.all(), label=_("Курс"),required=False)
+    # сourse = forms.ModelChoiceField(queryset=Course.objects.all(), label=_("Курс"),required=False)
     class Meta:
         model = Grade
         fields = ['module1', 'module2', 'module3', 'module4', 'grade']
