@@ -17,9 +17,15 @@
         <button type="submit">logout</button>
     </form>
     <p>ty teacher!</p>
-    {% for x in student %}
-    <p>{{ x }}</p>
+
+    {% for course in courses %}
+    {% if course.teacher.username == user.username and course.course_id %}
+    <a href="{% url 'course_detail' course.course_id %}">{{ course.course_name }}</a>
+    {% endif %}
     {% endfor %}
+
+
+
     {% elif user.is_authenticated %}
     <p>ty admin!</p>
 

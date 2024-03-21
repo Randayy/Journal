@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Course Detail</h1>
+<hr>
+
+<h2>{{ course.course_name }}</h2>
+
+{% for group in groups %}
+    <a href="{% url 'group_detail' course_id=course.course_id group_id=group.group_id %}">{{ group.group_name }}</a>
+{% endfor %}
+
+{% endblock %}
