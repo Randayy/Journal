@@ -17,6 +17,21 @@
         <button type="submit">logout</button>
     </form>
     <p>ty teacher!</p>
+    <form method="post" action="{% url 'home' %}">
+        {% csrf_token %}
+        <label for="search_lastname">Search Student by Last Name:</label>
+        <input type="text" id="search_lastname" name="search_lastname">
+        <button type="submit">Search</button>
+    </form>
+    <script type="text/javascript">
+        window.onload = function() {
+            history.replaceState({}, '', window.location.pathname);
+        };
+    </script>
+    {% if message and search_attempted %}
+        <p>{{ message }}</p>
+    {% endif %}
+
 
     {% for course in courses %}
     {% if course.teacher.username == user.username and course.course_id %}
