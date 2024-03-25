@@ -146,20 +146,56 @@ def Your_Grade_Table(request):
     return render(request, 'your_grade_table.html', context)
 
         
+# def home(request):
+#     user = request.user
+#     try:
+#         teacher = Teacher.objects.filter(user=user).first()
+     
+#         if teacher:
+#             courses = Course.objects.filter(teacher=teacher)
+#         else:
+#             courses = Course.objects.none()  # Або встановіть якесь значення за замовчуванням
+#         context = {'user': user, 'courses': courses, 'teacher': teacher}
+#         return render(request, 'home.html', context)
+#     except:
+#         context = {'user': user}
+#         return render(request, 'home.html', context)
+
+
 def home(request):
     user = request.user
+    context = {'user': user, 'search_attempted': False}
     try:
         teacher = Teacher.objects.filter(user=user).first()
-     
+
         if teacher:
             courses = Course.objects.filter(teacher=teacher)
+            context['courses'] = courses
+            context['teacher'] = teacher
+
+            if request.method == 'POST':
+                search_lastname = request.POST.get('search_lastname')
+                if search_lastname:
+                    students = Student.objects.filter(lastname__icontains=search_lastname)
+                    context['search_attempted'] = True
+
+                    if students.count() == 1:
+                        student = students.first()
+                        return redirect('group_detail', course_id=student.group.course.course_id, group_id=student.group.group_id)
+                    elif students.count() > 1:
+                        context['students'] = students
+                    else:
+                        context['message'] = 'Студента з таким прізвищем не знайдено.'
         else:
-            courses = Course.objects.none()  # Або встановіть якесь значення за замовчуванням
-        context = {'user': user, 'courses': courses, 'teacher': teacher}
-        return render(request, 'home.html', context)
-    except:
-        context = {'user': user}
-        return render(request, 'home.html', context)
+            courses = Course.objects.none()
+            context['courses'] = courses
+
+    except Exception as e:
+        print(f"Error in home view: {e}")
+
+    return render(request, 'home.html', context)
+
+
 
 
 def course_detail(request, course_id):
